@@ -72,6 +72,26 @@ export default [
                 component: "chapter/02/CameraLookat",
               }
             ]
+          },
+          {
+            path: "03",
+            routes: [
+              {
+                path: "ambient_light",
+                name: "环绕灯光",
+                component: "chapter/03/AmbientLight",
+              },
+              {
+                path: "spot_light",
+                name: "聚光灯光源",
+                component: "chapter/03/SpotLight",
+              },
+              {
+                path: "point_light",
+                name: "聚光灯光源",
+                component: "chapter/03/PointLight",
+              },
+            ]
           }
         ]
       },
