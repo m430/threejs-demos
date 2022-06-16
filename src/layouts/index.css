@@ -1,0 +1,7 @@
+.layout {
+  display: flex;
+  height: 100%;
+}
+.model {
+  flex: 1;
+}
