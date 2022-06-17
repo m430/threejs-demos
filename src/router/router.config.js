@@ -88,8 +88,13 @@ export default [
               },
               {
                 path: "point_light",
-                name: "聚光灯光源",
+                name: "点光源",
                 component: "chapter/03/PointLight",
+              },
+              {
+                path: "directional_light",
+                name: "平行光",
+                component: "chapter/03/DirectionalLight",
               },
             ]
           }

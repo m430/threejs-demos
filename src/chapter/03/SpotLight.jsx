@@ -25,7 +25,7 @@ function SpotLight() {
     renderer.setClearColor(new THREE.Color(0xEEEEEE));
     renderer.setSize(dom.clientWidth, dom.clientHeight);
     renderer.shadowMap.enabled = true;
-    renderer.shadowMap.type = THREE.PCFShadowMap;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     return renderer;
   }
 
@@ -108,6 +108,9 @@ function SpotLight() {
     scene.add(ambientLight);
     const spotLight = initSpotLight(plane);
     scene.add(spotLight);
+    // const spotLightHelper = new THREE.SpotLightHelper(spotLight);
+    // scene.add(spotLightHelper);
+    const helper = new THREE.CameraHelper(spotLight.shadow.camera);
 
     const spotLight0 = new THREE.SpotLight(0xcccccc);
     spotLight0.position.set(-40, 30, -10);
@@ -158,7 +161,11 @@ function SpotLight() {
       spotLight.penumbra = e;
     });
     gui.add(controls, 'debug').onChange(function (e) {
-      spotLight.shadow.camera.visible = e;
+      if (e) {
+        scene.add(helper);
+      } else {
+        scene.remove(helper);
+      }
     });
     gui.add(controls, 'castShadow').onChange(function (e) {
       spotLight.castShadow = e;

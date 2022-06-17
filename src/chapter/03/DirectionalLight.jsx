@@ -3,7 +3,7 @@ import { initStats } from "../../utils";
 import * as THREE from "three";
 import { GUI } from "dat.gui";
 
-function PointLight() {
+function DirectionalLight() {
 
   useEffect(() => {
     init();
@@ -24,47 +24,46 @@ function PointLight() {
     const renderer = new THREE.WebGLRenderer();
     renderer.setClearColor(new THREE.Color(0xEEEEEE));
     renderer.setSize(dom.clientWidth, dom.clientHeight);
+    renderer.shadowMap.enabled = true;
     return renderer;
   }
 
-  const ambiColor = "#0c0c0c";
+  const ambiColor = "#1c1c1c";
   const initAmbientLight = () => {
     return new THREE.AmbientLight(ambiColor);
   }
 
-  const initSpotLight = () => {
-    const spotLight = new THREE.SpotLight(0xffffff);
-    spotLight.position.set(-40, 60, -10);
-    spotLight.castShadow = true;
-    return spotLight;
-  }
-
-  const pointColor = "#ccffcc";
-  const initPointLight = () => {
-    const pointLight = new THREE.PointLight(pointColor);
-    pointLight.distance = 100;
-    return pointLight;
-  }
-
+  const pointColor = "#ff5808";
   const initDirectionalLight = () => {
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.7);
-    directionalLight.position.set(-20.40, 60);
+    const directionalLight = new THREE.DirectionalLight(pointColor);
+    directionalLight.position.set(-40, 60, -10);
+    directionalLight.castShadow = true;
+    directionalLight.shadow.camera.near = 2;
+    directionalLight.shadow.camera.far = 200;
+    directionalLight.shadow.camera.left = -50;
+    directionalLight.shadow.camera.right = 50;
+    directionalLight.shadow.camera.top = 50;
+    directionalLight.shadow.camera.bottom = -50;
+
+    directionalLight.intensity = 0.5;
+    directionalLight.shadow.mapSize.height = 1024;
+    directionalLight.shadow.mapSize.width = 1024;
     return directionalLight;
   }
 
   const initPlaneGeometry = () => {
-    const planeGeometry = new THREE.PlaneGeometry(60, 20, 1, 1);
-    const planeMaterial = new THREE.MeshPhongMaterial({ color: 0xffffff });
+    const planeGeometry = new THREE.PlaneGeometry(600, 200, 20, 20);
+    const planeMaterial = new THREE.MeshLambertMaterial({ color: 0xffffff });
     const plane = new THREE.Mesh(planeGeometry, planeMaterial);
     plane.rotation.x = -0.5 * Math.PI;
-    plane.position.set(0, 0, 0);
+    plane.position.set(15, -5, 0);
     plane.receiveShadow = true;
     return plane;
   }
 
   const initCube = (scene) => {
     const cubeGeometry = new THREE.BoxGeometry(4, 4, 4);
-    const cubeMaterial = new THREE.MeshLambertMaterial({ color: 0xff7777 });
+    const cubeMaterial = new THREE.MeshLambertMaterial({ color: 0xff3333 });
     const cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
     cube.position.set(-4, 3, 0);
     cube.castShadow = true;
@@ -86,14 +85,10 @@ function PointLight() {
     const sphereLight = new THREE.SphereGeometry(0.2);
     const sphereLightMaterial = new THREE.MeshBasicMaterial({ color: 0xac6c25 });
     const sphereLightMesh = new THREE.Mesh(sphereLight, sphereLightMaterial);
-    sphereLightMesh.position.set(20, 0, 2);
+    sphereLightMesh.position.set(3, 20, 3);
     sphereLightMesh.castShadow = true;
     scene.add(sphereLightMesh);
     return sphereLightMesh;
-  }
-
-  const initGui = (controls, ambientLight, pointLight) => {
-
   }
 
   const init = () => {
@@ -108,9 +103,9 @@ function PointLight() {
     scene.add(plane);
     const ambientLight = initAmbientLight();
     scene.add(ambientLight);
-    const pointLight = initPointLight();
-    const helper = new THREE.PointLightHelper(pointLight);
-    scene.add(pointLight);
+    const directionalLight = initDirectionalLight();
+    const helper = new THREE.CameraHelper(directionalLight.shadow.camera);
+    scene.add(directionalLight);
 
     const cube = initCube(scene);
     const sphere = initSphere(scene);
@@ -124,9 +119,13 @@ function PointLight() {
       this.bouncingSpeed = 0.03;
       this.ambientColor = ambiColor;
       this.pointColor = pointColor;
-      this.intensity = 1;
-      this.distance = 100;
+      this.intensity = 0.5;
+      this.distance = 0;
+      this.penumbra = 30;
+      this.angle = 0.1;
       this.debug = false;
+      this.castShadow = true;
+      this.target = "Plane";
     }
 
     const gui = new GUI();
@@ -134,20 +133,34 @@ function PointLight() {
       ambientLight.color = new THREE.Color(e);
     });
     gui.addColor(controls, 'pointColor').onChange(function (e) {
-      pointLight.color = new THREE.Color(e);
+      directionalLight.color = new THREE.Color(e);
     });
     gui.add(controls, "intensity", 0, 3, 0.1).onChange((e) => {
-      pointLight.intensity = e;
+      directionalLight.intensity = e;
     })
-    gui.add(controls, 'distance', 0, 100).onChange(function (e) {
-      pointLight.distance = e;
-    });
     gui.add(controls, 'debug').onChange(function (e) {
       if (e) {
         scene.add(helper);
       } else {
         scene.remove(helper);
       }
+    });
+    gui.add(controls, 'castShadow').onChange(function (e) {
+      directionalLight.castShadow = e;
+    });
+    gui.add(controls, 'target', ['Plane', 'Sphere', 'Cube']).onChange(function (e) {
+      switch (e) {
+        case "Plane":
+          directionalLight.target = plane;
+          break;
+        case "Sphere":
+          directionalLight.target = sphere;
+          break;
+        case "Cube":
+          directionalLight.target = cube;
+          break;
+      }
+
     });
 
     const render = () => {
@@ -161,22 +174,11 @@ function PointLight() {
       sphere.position.x = 20 + (10 * (Math.cos(step)));
       sphere.position.y = 2 + (10 * Math.abs(Math.sin(step)));
 
-      if (phase > 2 * Math.PI) {
-        invert = invert * -1;
-        phase -= 2 * Math.PI;
-      } else {
-        phase += controls.rotationSpeed;
-      }
-      sphereLight.position.z = +(7 * (Math.sin(phase)));
-      sphereLight.position.x = +(14 * (Math.cos(phase)));
-      sphereLight.position.y = 5;
+      sphereLight.position.z = -8;
+      sphereLight.position.x = +(27 * (Math.sin(step / 3)));
+      sphereLight.position.y = 10 + (26 * (Math.cos(step / 3)));
 
-      if (invert < 0) {
-        const pivot = 14;
-        sphereLight.position.x = (invert * (sphereLight.position.x - pivot)) + pivot;
-      }
-
-      pointLight.position.copy(sphereLight.position);
+      directionalLight.position.copy(sphereLight.position);
 
       requestAnimationFrame(render);
       renderer.render(scene, camera);
@@ -189,4 +191,4 @@ function PointLight() {
   )
 }
 
-export default PointLight;
+export default DirectionalLight;
