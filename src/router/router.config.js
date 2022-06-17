@@ -96,6 +96,21 @@ export default [
                 name: "平行光",
                 component: "chapter/03/DirectionalLight",
               },
+              {
+                path: "hemisphere_light",
+                name: "半球光光源",
+                component: "chapter/03/HemisphereLight",
+              },
+              {
+                path: "area_light",
+                name: "平面光源",
+                component: "chapter/03/AreaLight",
+              },
+              {
+                path: "lens_flare",
+                name: "镜头光晕",
+                component: "chapter/03/LensFlare",
+              },
             ]
           }
         ]
