@@ -103,8 +103,9 @@ function LensFlareExample() {
     const textureFlare3 = new THREE.TextureLoader().load(lensImg3);
 
     const flareColor = new THREE.Color(0xffaacc);
-    const lensFlare = new Lensflare(textureFlare0, 350, 0.0, THREE.AdditiveBlending, flareColor);
+    const lensFlare = new Lensflare();
 
+    lensFlare.addElement(new LensflareElement(textureFlare0, 350, 0, flareColor));
     lensFlare.addElement(new LensflareElement(textureFlare3, 60, 0.6))
     lensFlare.addElement(new LensflareElement(textureFlare3, 70, 0.7))
     lensFlare.addElement(new LensflareElement(textureFlare3, 120, 0.9))
@@ -129,13 +130,13 @@ function LensFlareExample() {
     scene.add(spotLight);
     const directionalLight = initDirectionalLight();
     directionalLight.target = plane;
+    const lensFlare = initFlare();
+    lensFlare.position.copy(directionalLight.position);
+    directionalLight.add(lensFlare);
     scene.add(directionalLight);
 
     const cube = initCube(scene);
     const sphere = initSphere(scene);
-    const lensFlare = initFlare();
-    lensFlare.position.copy(directionalLight.position);
-    scene.add(lensFlare);
 
     let step = 0;
     let invert = 1;
