@@ -1,8 +1,7 @@
 import { useEffect } from "react";
-import { initStats, initCamera, initRenderer, initTrackballControls } from "../../utils";
+import { initCamera, initRenderer } from "../../utils";
 import * as THREE from "three";
 import { OBJLoader } from "three/examples/jsm/loaders/OBJLoader";
-import objFile from "../../assets/models/pinecone/pinecone.obj";
 import BaseScene from "../../utils/baseScene";
 
 function LoadObj() {
@@ -18,8 +17,14 @@ function LoadObj() {
     let scene = new BaseScene(camera, renderer);
     camera.lookAt(new THREE.Vector3(0, 15, 0));
 
+    const material = new THREE.MeshLambertMaterial({ color: 0x5c3a21 });
+
     const loader = new OBJLoader();
-    loader.load(objFile, (mesh) => {
+    loader.load("/src/assets/models/pinecone/pinecone.obj", (mesh) => {
+      mesh.children.forEach((child) => {
+        child.material = material;
+      })
+      mesh.scale.set(120, 120, 120);
       scene.render(mesh, camera);
     });
   }
