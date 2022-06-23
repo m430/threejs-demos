@@ -112,6 +112,51 @@ export default [
                 component: "chapter/03/LensFlare",
               },
             ]
+          },
+          {
+            path: "04",
+            routes: [
+              {
+                path: 'mesh_basic_material',
+                name: "基础材质",
+                component: "chapter/04/MeshBasicMaterial"
+              },
+              {
+                path: 'mesh_depth_material',
+                name: "网格深度材质",
+                component: "chapter/04/MeshDepthMaterial"
+              },
+              {
+                path: 'combined_material',
+                name: "联合材质",
+                component: "chapter/04/CombinedMaterial"
+              },
+              {
+                path: 'mesh_normal_material',
+                name: "网格法向材质",
+                component: "chapter/04/MeshNormalMaterial"
+              }
+            ]
+          },
+          {
+            path: "08",
+            routes: [
+              {
+                path: "load_json",
+                name: "加载Three.js的JSON格式模型",
+                component: "chapter/08/LoadSaveJsonObject",
+              },
+              {
+                path: "load_scene",
+                name: "加载Three.js的JSON格式场景",
+                component: "chapter/08/LoadSaveJsonScene",
+              },
+              {
+                path: "load_obj",
+                name: "加载OBJ模型文件",
+                component: "chapter/08/LoadObj",
+              }
+            ]
           }
         ]
       },

@@ -9,8 +9,9 @@ export default defineConfig({
     react()
   ],
   optimizeDeps: {
-    
+
   },
+  assetsInclude: ["**/*.obj", "**/*.gltf"],
   build: {
     minify: false,
     commonjsOptions: {
