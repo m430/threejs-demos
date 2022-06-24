@@ -44,3 +44,35 @@ export const initRenderer = (dom, additionalaProperties) => {
   dom.appendChild(renderer.domElement);
   return renderer;
 }
+
+export const addGroundPlane = (scene) => {
+  let geom = new THREE.PlaneGeometry(60, 20, 120, 120);
+  let mat = new THREE.MeshPhongMaterial({ color: 0xffffff });
+  let plane = new THREE.Mesh(geom, mat);
+  plane.receiveShadow = true;
+
+  plane.rotation.x = -0.5 * Math.PI;
+  plane.position.set(15, 0, 0);
+  scene.add(plane);
+  return plane;
+}
+
+export const initDefaultLight = (scene, initialPosition) => {
+  var position = (initialPosition !== undefined) ? initialPosition : new THREE.Vector3(-10, 30, 40);
+  
+  var spotLight = new THREE.SpotLight(0xffffff);
+  spotLight.position.copy(position);
+  spotLight.shadow.mapSize.width = 2048;
+  spotLight.shadow.mapSize.height = 2048;
+  spotLight.shadow.camera.fov = 15;
+  spotLight.castShadow = true;
+  spotLight.decay = 2;
+  spotLight.penumbra = 0.05;
+  spotLight.name = "spotLight"
+
+  scene.add(spotLight);
+
+  var ambientLight = new THREE.AmbientLight(0x343434);
+  ambientLight.name = "ambientLight";
+  scene.add(ambientLight);
+}

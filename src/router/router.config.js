@@ -232,6 +232,16 @@ export default [
                 component: "chapter/08/LoadSvg",
               },
             ]
+          },
+          {
+            path: "09",
+            routes: [
+              {
+                path: "basic_animation",
+                name: "简单动画",
+                component: "chapter/09/BasicAnimation"
+              }
+            ]
           }
         ]
       },
