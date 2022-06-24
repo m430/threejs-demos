@@ -8,12 +8,9 @@ export default defineConfig({
     cjs(),
     react()
   ],
-  optimizeDeps: {
-
-  },
   assetsInclude: ["**/*.obj", "**/*.gltf"],
   build: {
-    minify: false,
+    target: "es2015",
     commonjsOptions: {
       include: /node_modules/,
     }

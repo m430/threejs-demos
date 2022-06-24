@@ -155,7 +155,82 @@ export default [
                 path: "load_obj",
                 name: "加载OBJ模型文件",
                 component: "chapter/08/LoadObj",
-              }
+              },
+              {
+                path: "load_obj_mtl",
+                name: "加载OBJ和MTL模型文件",
+                component: "chapter/08/LoadObjMtl",
+              },
+              {
+                path: "load_collada",
+                name: "加载Collada模型DAE文件",
+                component: "chapter/08/LoadCollada",
+              },
+              {
+                path: "load_stl",
+                name: "加载STL模型文件",
+                component: "chapter/08/LoadSTL",
+              },
+              {
+                path: "load_vtk",
+                name: "加载VTK模型文件",
+                component: "chapter/08/LoadVTK",
+              },
+              {
+                path: "load_pdb",
+                name: "加载PDB模型文件",
+                component: "chapter/08/LoadPDB",
+              },
+              {
+                path: "load_ply",
+                name: "加载PLY模型文件",
+                component: "chapter/08/LoadPLY",
+              },
+              {
+                path: "load_vrml",
+                name: "加载VRML模型文件",
+                component: "chapter/08/LoadVRML",
+              },
+              {
+                path: "load_tds",
+                name: "加载TDS模型文件",
+                component: "chapter/08/LoadTDS",
+              },
+              {
+                path: "load_3mf",
+                name: "加载3MF模型文件",
+                component: "chapter/08/Load3MF",
+              },
+              {
+                path: "load_amf",
+                name: "加载AMF模型文件",
+                component: "chapter/08/LoadAMF",
+              },
+              // {
+              //   path: "load_draco",
+              //   name: "加载DRACO模型文件",
+              //   component: "chapter/08/LoadDRACO",
+              // }
+              {
+                path: "load_prwm",
+                name: "加载PRWM模型文件",
+                component: "chapter/08/LoadPRWM",
+              },
+              {
+                path: "load_gcode",
+                name: "加载GCODE模型文件",
+                component: "chapter/08/LoadGcode",
+              },
+              {
+                path: "load_nrrd",
+                name: "加载NRRD模型文件",
+                component: "chapter/08/LoadNrrd",
+              },
+              {
+                path: "load_svg",
+                name: "加载SVG模型文件",
+                component: "chapter/08/LoadSvg",
+              },
             ]
           }
         ]
