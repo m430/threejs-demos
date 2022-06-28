@@ -27,7 +27,7 @@ function BaseScene(providedCamera, renderer, shouldAddLights, updateMesh) {
     self.trackballControls.update(self.clock.getDelta());
 
     if (updateMesh) {
-      self.mesh.rotation.z += 0.01;
+      self.updateMesh(self.mesh);
     }
 
     self.renderer.render(self.scene, self.camera);

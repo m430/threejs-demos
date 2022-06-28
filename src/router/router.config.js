@@ -240,6 +240,41 @@ export default [
                 path: "basic_animation",
                 name: "简单动画",
                 component: "chapter/09/BasicAnimation"
+              },
+              {
+                path: "select_object",
+                name: "选择对象",
+                component: "chapter/09/SelectObject"
+              },
+              {
+                path: "animation_tween",
+                name: "基于TWEEN.js动画",
+                component: "chapter/09/AnimationTween"
+              },
+              {
+                path: "trackball_controls",
+                name: "轨迹球控制器",
+                component: "chapter/09/TrackballControlsCamera"
+              },
+              {
+                path: "fly_controls",
+                name: "飞行控制器",
+                component: "chapter/09/FlyControlsCamera"
+              },
+              {
+                path: "first_person_controls",
+                name: "第一视角控制器",
+                component: "chapter/09/FirstPersonControlsCamera"
+              },
+              {
+                path: "orbit_controls",
+                name: "轨道控制器",
+                component: "chapter/09/OrbitControlsCamera"
+              },
+              {
+                path: "morph_targets",
+                name: "变形目标创建动画",
+                component: "chapter/09/MorphTargets"
               }
             ]
           }
